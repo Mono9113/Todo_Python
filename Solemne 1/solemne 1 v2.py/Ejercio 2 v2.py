@@ -24,5 +24,5 @@ while n<1 or n>12:
     n=int(input("Ingrese un numero [1----12]: "))
 while i<=12:
     print(f"{i}/{n}=",round(i/n,2))  #Funcion round(###,2) dice que define a 2 decimales la lectura del numero.
-    i+=1 2
+    i+=1 
     
