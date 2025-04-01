@@ -17,3 +17,11 @@ Ingrese un numero entre el 1 y el 12 entero: 3
 11 ** 3 = 1331
 12 ** 3 = 1728"""
 
+n=int(input("Ingrese numero entre [1-----12]: "))
+i=1
+while n<1 or n>12:
+    print("Numero no valido, intente nuevamente.")
+    n=int(input("Ingrese numero entre [1------12]: "))
+while i<=12:
+    print(f"{i}**{n}= {i**n}")
+    i+=1

@@ -31,7 +31,7 @@ desc_cat=0
 desc_todo=0
 
 t=1
-if t==1:
+while t==1:
     print("**************************** Menu principal ***********************")
     print("Bienvenido a Dulce Tentacion, eliga una categoria:")
     print("1) Dulces")
@@ -235,7 +235,7 @@ if t==1:
         print("Descuento asociado a pago con tarjeta de debito: ", total*0.02)
         pago_debito = total*0.02
         print("\n Total a pagar: $",total-total_pago-desc_cat-pago_debito)
-        break
+        t==2
     while metodo_pago==2:
         print("************************ Factura ******************************")
         print("Nombre: ", nombre)
@@ -302,7 +302,7 @@ if t==1:
               total_pago = total*0.10
         print("\n Total a pagar: $", total - total_pago - desc_cat)
         print("Cantidad total de productos: ", cantidad)
-        break
+        t==2
     while metodo_pago==3:
         print("************************ Factura ******************************")
         print("Nombre: ", nombre)
@@ -371,7 +371,7 @@ if t==1:
         print("\n Total a pagar: $", total - total_pago - desc_cat)
         print("Cantidad total de productos: ", cantidad)
         print("*********************************************************")
-        break
+        t==2
     if metodo_pago == 4:
         print("**************************** Menu principal ***********************")
         print("Bienvenido a Dulce Tentacion, eliga una categoria:")
@@ -382,7 +382,7 @@ if t==1:
         print("5) Finalizar compra")
         op = int(input("Ingrese una opcion: "))
         print("*******************************************************************")
-        pass
+        
     
 
 
