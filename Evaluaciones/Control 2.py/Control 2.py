@@ -1,0 +1,115 @@
+#Se realiza la definicion de las listas necesarias  para almacenar informacion.
+nrem = []
+ndes = []
+fenv = []
+rego = []
+regd = []
+tpenv= []
+pagos=[['Sobre',5000],['Caja',15000]]  #Matriz bidimensional
+
+#Se crea archivo que guarde los ingresos.
+def vermonto():
+    try:
+        with open("ingresos.txt","r") as archivo:
+            contenido=archivo.read()
+            monto= int(contenido.split("$")[-1])
+            return monto
+    except FileNotFoundError:
+        return 0
+
+#se define funcion para hacer el registro en cada lista
+def registrar():
+        print("************* Registrar encomiendas ***************")
+        nr=input("Nombre Completo del remitente: ").capitalize()
+        nd=input("Nombre completo del destinatario: ").capitalize()
+        fe=input("Ingrese Fecha de envio dd/mm/aaaa: ").capitalize()
+        ro=input("Ingrese region de origen: ").capitalize()
+        rd=input("Ingrese region de destino: ").capitalize()
+        tp=input("Ingrese tipo de envio (Sobre/Caja): ").capitalize()
+        #Verificar que la region de origen y el destino sean distintas
+        if ro == rd:
+            print("La region de origen y destino no pueden ser iguales.")
+            return
+        #Verifica costo de envio
+        costo = 0
+        for tipo, valor in pagos:
+            if tp == tipo:
+                costo = valor
+                break
+        if costo == 0:
+            print("Tipo de envío no válido.")
+            return
+        print(f"El costo de envío es: ${costo}")
+        #Este apartado agrega los datos a las listas
+        nrem.append(nr)
+        ndes.append(nd)
+        fenv.append(fe)
+        rego.append(ro)
+        regd.append(rd)
+        tpenv.append(tp)
+
+#Se define funcion para generar el reporte 
+def reporte():
+    print("********** Reporte de Encomiendas *************")
+    if not ndes:
+        print("No hay encomienda registradas.")
+        return
+    totali=0
+    #se realiza el print de las encomiendas por orden sucecivo
+    for i in range (len(ndes)):
+        print(f"Enviado {i+1}: ")
+        print(f"Remitentes: {nrem[i]}")
+        print(f"Destinatario: {ndes[i]}")
+        print(f"Fecha de envio: {fenv[i]}")
+        print(f"Region de origen: {rego[i]}")
+        print(f"Region de destino: {regd[i]}")
+        print(f"Tipo de envio: {tpenv[i]}")
+        print("*************************************")
+
+#Se define duncion para ver y guaradar el monto total
+def montototal():
+    global totalgen
+    print("\n********* Monto total de ingresos ********************")
+    total=0
+    for tipo in tpenv:
+        for pago in pagos:
+            if tipo == pago[0]:
+                total += pago[1]
+                break
+            totalgen = total
+    print(f"El monto total de ingresos es: ${totalgen}")
+    #Guardar en archivo
+    with open("ingresos.txt","w") as archivo:
+        archivo.write(f"Monto total de ingreesos por encomiendas registradas: ${totalgen}")
+    print("EL mmonto total ha sido guardado en el archivo 'ingresos.txt'.")
+
+
+#************************** Progrma ****************************************
+totalgen = vermonto()
+i=0
+while i==0:
+    montototal()
+    print("\n**************** Bienvenidos a 'Real Flash SPA'*******************\n")
+    print("EL monto total ha sido guardado en el archivo 'ingresos.txt'.")
+    print("1. Registrar encomiedas")
+    print("2. Reporte de encomiendas")
+    print("3. Monto total de ingresos por encomiendas registradas")
+    print("4. Salir")
+    op=int(input("Ingrese su opcion: "))
+
+    if op==1:
+        print()
+        registrar()
+    if op==2:
+        print()
+        reporte()
+    if op==3:
+        print()
+        montototal()
+    if op==4:
+        pritn()
+        print("Hasta pronto.")
+        break
+    if op<1 and op>4:
+        print()
+        print("Opcion no valida, intente nuevamente.")
