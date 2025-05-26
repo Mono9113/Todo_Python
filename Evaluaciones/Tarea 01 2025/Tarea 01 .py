@@ -1,0 +1,421 @@
+#by:
+# --Martin Alvarez Diaz rut:21.926.565-4  alias:Tilin
+
+# --Tomas Monardez Horamzabal rut:20.296.267-k alias:Mono
+
+# --Ian Boekemeyer Donatti rut:20.287.517-3 alias:?
+
+# --Isaac Cerrillo Lobos rut:21.856.359-7 alias:no
+
+import tkinter as tk
+from tkinter import messagebox
+from tkinter import *
+nt=0
+nd=0
+precios=[]
+precios1=[]
+lp=[] 
+ingresos=[]
+
+# #TOOLTIP
+# class Tooltip:
+#     def __init__(self,widget,text):
+#         self.widget=widget
+#         self.text=text
+#         self.tooltip_window=None
+#         widget.bind("<Enter>",self.show_tooltip)
+#         widget.bind("<Leave>",self.hide_tooltip)
+
+# def show_tooltip(self,event):
+#     if self.tooltip_window or not self.text:
+#         return
+#     x,y,_,_=self.widget.bbox("insert")
+#     x=y+self.widget.winfo_rootx()+25
+#     x=y+self.widget.winfo_rooty()+25
+#     self.tootltip_window=tw=tk.Toplevel(self.widget)
+#     tw.wm_overrideredirect(True)
+#     tw.wm_geometry(f"+{x}+{y}")
+#     label=tk.Label(tw,text=self.text,justify="left",bg="#ffffe0",relief='solid',borderwidth=1,font=("tahoma","8","normal"))
+#     label.pack(ipadx=1)
+
+# def hode_tooltip(self,event):
+#     tw=self.tooltip_window
+#     self.tooltip_window=None
+#     if tw:
+#         tw.destroy()
+
+
+def generar_plan():
+    global nt
+    global nd
+    # Termino para limpiar la lista al sert ocupado una segunda vez
+    lp.clear()
+    precios.clear()
+    ingresos.clear()
+    try:
+        nt = int(entry_nt.get())
+        nd = int(entry_nd.get())
+    except (ValueError, IndexError):
+        messagebox.showerror("Error", "Ingrese numeros validos ")
+
+    """Matriz Precios"""
+    for i in range(1, nt + 1):
+        nombre = f"Precio de polera {i}:"
+        cantidades = [0] * nd
+        precios.append([nombre] + cantidades)
+        precios1.append([nombre] + cantidades)
+        texto_matriz1 = "Día:\t" + "\t".join(str(d) for d in range(1, nd + 1)) + "\n"
+    for i in range(nt):
+        texto_matriz1 += f"Tipo {i + 1}:\t" + "\t".join(str(precios[i][d]) for d in range(1, nd + 1)) + "\n"
+
+    """Matriz lp"""
+    for i in range(1, nt + 1):
+        nombre = f"Tipo de polera {i}:\t"
+        cantidades = [0] * nd
+        lp.append([nombre] + cantidades)
+    texto_matriz = "Día:\t" + "\t".join(str(d) for d in range(1, nd + 1)) + "\n"
+    for i in range(nt):
+        texto_matriz += f"Tipo {i + 1}:\t" + "\t".join(str(lp[i][d]) for d in range(1, nd + 1)) + "\n"
+
+    label_matriz = tk.Label(frameop1, text=texto_matriz, justify="left", font=("Courier,10"))
+    label_matriz.config(bg="#F4F4F4", fg="#007ACC")
+    label_matriz.place(relx=0.40, rely=0.35)
+
+#Funcion Volver al menu
+def backmenu():
+    frameop1.pack_forget() or frameop2.pack_forget() or frameop3.pack_forget() or frameop4.pack_forget()
+    framemenu.pack(fill="both",expand=True)
+    #volveralmenu.place_forget()
+
+#Cambia a frame1
+def cambiarop1():
+    framemenu.pack_forget()
+    frameop2.pack_forget()
+    frameop1.pack(fill="both",expand=True)
+    
+
+    #Para borrar el plan anterior.
+    entry_nt.delete(0,tk.END)
+    entry_nt.delete(0,tk.END)
+
+#Cambia a frame 2, genera la interfaz y prepara los calculos para opciones 3 y 4
+def cambiarop2():
+    framemenu.pack_forget()
+    frameop2.pack(fill="both", expand=True)
+
+    for widget in frameop2.winfo_children():
+        widget.destroy()
+
+    """Titulo frame2"""
+    titulo2=tk.Label(frameop2,text="Ingreso de cantidad y precio por tipo de polera y dia")
+    titulo2.config(font=("Georgia",16,"bold"),bg="#F4F4F4",fg="#005B96")
+    titulo2.place(relx=0.25,rely=0.03)
+
+    #Mostrar encabezado de la matriz
+    """Impresion Matriz Lp"""
+    texto_matriz = "Día:\t" + "\t".join(str(d) for d in range(1, nd + 1)) + "\n"
+    for i in range(nt):
+        texto_matriz += f"Tipo {i + 1}:\t" + "\t".join(str(lp[i][d]) for d in range(1, nd + 1)) + "\n"
+
+    label_matriz = tk.Label(frameop2,text=texto_matriz,justify="left",font=("Courier,10"))
+    label_matriz.config(bg="#F4F4F4",fg="#007ACC") 
+    label_matriz.place(relx=0.40,rely=0.35)
+    
+    """Impresion Matriz precio"""
+    texto_matriz1 = "Día:\t" + "\t".join(str(d) for d in range(1, nd + 1)) + "\n"
+    for i in range(nt):
+        texto_matriz1 += f"Precio Tipo {i + 1}:\t" + "\t".join(str(precios[i][d]) for d in range(1, nd + 1)) + "\n"
+    label_matriz1 = tk.Label(frameop3,text=texto_matriz1,justify="left",font=("Courier,20"))
+    label_matriz1.config(bg="#F4F4F4",fg="#007ACC") 
+    label_matriz1.place(relx=0.20,rely=0.40)
+
+    # Entrada de Tipo
+    Label_tipo=tk.Label(frameop2, text=f"Tipo (1-{nt}):")
+    Label_tipo.place(relx=0.02,rely=0.345)
+    Label_tipo.config(font=("Normal",10,"bold"),bg="#F4F4F4",fg="#005B96")
+    entry_tipo = tk.Entry(frameop2, width=5)
+    entry_tipo.place(relx=0.1,rely=0.35)
+
+    # Entrada de Día
+    Label_dia=tk.Label(frameop2, text=f"Día (1-{nd}):")
+    Label_dia.place(relx=0.02,rely=0.395)
+    Label_dia.config(font=("Normal",10,"bold"),bg="#F4F4F4",fg="#005B96")
+    entry_dia = tk.Entry(frameop2, width=5)
+    entry_dia.place(relx=0.1,rely=0.40)
+
+    # Entrada de Cantidad
+    Label_cant=tk.Label(frameop2, text="Cantidad:")
+    Label_cant.place(relx=0.15,rely=0.345)
+    Label_cant.config(font=("Normal",10,"bold"),bg="#F4F4F4",fg="#005B96")
+    entry_cant = tk.Entry(frameop2, width=5)
+    entry_cant.place(relx=0.22,rely=0.35)
+
+    # Entrada de Precio
+    Label_precio=tk.Label(frameop2, text="Precio:")
+    Label_precio.place(relx=0.15,rely=0.395)
+    Label_precio.config(font=("Normal",10,"bold"),bg="#F4F4F4",fg="#005B96")
+    entry_precio = tk.Entry(frameop2, width=5)
+    entry_precio.place(relx=0.22,rely=0.40)
+    """ingresa los datos a l"""
+    def guardar():
+        try:
+            try:
+                tipo = int(entry_tipo.get()) - 1
+                dia = int(entry_dia.get())
+                cant = int(entry_cant.get())
+                precio = int(entry_precio.get())
+            except(ValueError,IndexError):
+                messagebox.showerror("Error", "Ingrese numeros validos ")
+
+            """Matriz precio"""
+            if 0 <= tipo < nt and 1 <= dia <= nd:
+                if 100 <= cant <= 5500:
+                    precios[tipo][dia] = precio*cant
+                    precios1[tipo][dia]=int(entry_precio.get())
+                    
+
+            """Matriz lp"""
+            if 0 <= tipo < nt and 1 <= dia <= nd:
+                if 100 <= cant <= 5500:
+                    lp[tipo][dia] = cant
+                    if len(precios) <= tipo:
+                        precios.extend([0] * (tipo + 1 - len(precios)))
+                        precios[tipo] = precio
+
+                else:
+                    tk.messagebox.showwarning("Advertencia", "Error, Los rangos de fabricacion son de minimo 100 y máximo 5500.")
+                
+                """Matriz precio actualizada"""
+                nueva_matriz1 = "Día:\t        \t" + "\t".join(str(d) for d in range(1, nd + 1)) + "\n"
+                for i in range(nt):
+                    nueva_matriz1 += f"Precio Tipo {i + 1}:\t" +"\t".join("$"+str(precios[i][d]) for d in range(1, nd + 1)) + "\n"
+                label_matriz1.config(text=nueva_matriz1,font=("Courier,20"))
+
+                """Matriz lp actualizada"""
+                nueva_matriz = "Día:\t        " + "\t".join(str(d) for d in range(1, nd + 1)) + "\n"
+                for i in range(nt):
+                    nueva_matriz += f"Tipo {i + 1}:\t" + "\t".join(str(lp[i][d]) for d in range(1, nd + 1)) + "\n"
+                label_matriz.config(text=nueva_matriz)
+        except Exception as e:
+            print("Error al guardar:", e)
+
+    guardarb=boton1(frameop2,"Agregar","#005B96", "white",guardar)
+    guardarb.place(relx=0.095,rely=0.50)
+
+    volveralmenu=boton1(frameop2,"Volver","#D6D6D6","#2D2D2D",backmenu)
+    volveralmenu.place(relx=0.90,rely=0.90)
+
+#Cambia Frame3
+def cambiarop3():
+    framemenu.pack_forget()
+    frameop3.pack_forget()
+    frameop3.pack(fill="both", expand=True)
+
+
+
+    #volver menu
+    volveralmenu=boton1(frameop3,"Volver","#D6D6D6","#2D2D2D",backmenu)
+    volveralmenu.place(relx=0.90,rely=0.90)
+
+#Cambia Frame 4, Realiza calculos por dia
+def cambiarop4():
+    framemenu.pack_forget()
+    frameop4.pack(fill="both", expand=True)
+
+    # Limpiar frame
+    for widget in frameop4.winfo_children():
+        widget.destroy()
+
+    # Título
+    titulo = tk.Label(frameop4,text="Ingresos por dia",font=("Georgia", 20, "bold"),bg="#F4F4F4",fg="#005B96")
+    titulo.place(relx=0.45,rely=0.05)
+
+    # Selección de día
+    selec_dia=tk.Label(frameop4,text=f"Seleccione día (1-{nd}):",font=("normal", 12),bg="#F4F4F4",fg="#005B96")
+    selec_dia.place(relx=0.04,rely=0.30)
+
+    entry_dia = tk.Entry(frameop4, width=5)
+    entry_dia.place(relx=0.09,rely=0.35)
+
+    # Resultado
+    label_resultado = tk.Label(frameop4,text="",font=("Georgia",16,"bold"),justify="left",bg="#F4F4F4",fg="#007ACC")
+    label_resultado.place(relx=0.30,rely=0.35)
+
+    def calcular_ingresos():
+        try:
+            try:
+                dia = int(entry_dia.get())
+            except (ValueError, IndexError):
+                messagebox.showerror("Error", "Accion no valida")
+            if 1 <= dia <= nd:
+                total = 0
+                detalle = []
+
+                for tipo in range(nt):
+                    try:
+                        precio = int(precios1[tipo][dia])
+                    except (ValueError, IndexError):
+                        precio = 0
+                    try:
+                        cantidad = int(lp[tipo][dia])
+                    except (ValueError, IndexError):
+                        cantidad = 0
+                    ingreso = cantidad * precio
+                    total += ingreso
+                    detalle.append(f"Tipo {tipo + 1}: {cantidad} x ${precio} = ${ingreso}")
+
+
+                texto_resultado = "\n".join(detalle) + f"\n\nTOTAL DEL DIA {dia} : ${total}."
+                label_resultado.config(text=texto_resultado)
+            else:
+                messagebox.showerror("Error", f"¡El día debe estar entre 1 y {nd}!.")
+        except ValueError:
+            messagebox.showerror("Error", "Ingrese un número válido.")
+        except IndexError:
+            messagebox.showerror("Error", "Datos incompletos. Genere primero el plan en Opción 1 y 2.")
+
+    # Botón Calcular
+    btn_calcular = boton1(frameop4, "Calcular", "#005B96", "white",  calcular_ingresos)
+    btn_calcular.place(relx=0.07,rely=0.45)
+    
+    """Vovler al menu"""
+    volveralmenu=boton1(frameop4,"Volver","#D6D6D6","#2D2D2D",backmenu)
+    volveralmenu.place(relx=0.90,rely=0.90)
+
+#Ejecuta la finalizacion de la ventana
+def salir():
+    ventana.quit()
+
+#Crea botones
+def boton1(root,text, bg, fg, command=None):
+    btn = tk.Button(root,text=text, bg=bg, fg=fg, font=("Arial", 10, "bold"),relief="flat", activebackground="#007ACC", padx=10, pady=5, command=command)
+    return btn
+
+#Ventana del programa.
+ventana=tk.Tk()
+ventana.geometry("1080x720")
+ventana.resizable()
+
+#Creacion de el frame para el Menú
+framemenu=tk.Frame(ventana)
+framemenu.config(bg="#F4F4F4")
+framemenu.pack(fill="both",expand=True)
+
+"""Titulo menu"""
+inicio=tk.Label(framemenu,text="Sistema planificacion de Fabricacion de poleras.")
+inicio.config(font=("Georgia",16,"bold"),bg="#F4F4F4",fg="#005B96")
+inicio.place(relx=0.30,rely=0.03)
+
+"""Instrucciones menu"""
+texto1="""\nEste es sitema para planear la fabricacion de poleras a continuacion usted observara las instrucciones: 
+
+1. Cada boton es una opcion de el menu, la primera opcion (azul) es para generar la matriz (se reinicia cada vez que se ingresa).
+
+2. Los botones grices sirven para editar el planer.
+
+3. En caso de no encontrar el boton de volver se puede ubicar en el menu desplegable ubicado en la esquina superior izquierda.
+"""
+instrucciones=tk.Label(framemenu,text=texto1,justify="left")
+instrucciones.config(bg="#F4F4F4")
+instrucciones.place(x=20,y=60)
+
+"""Botones opciones menu"""
+irop1= boton1(framemenu,"Generar plan de fabricación","#005B96", "white",cambiarop1)
+irop1.place(x=20,y=250)
+
+
+irop2= boton1(framemenu,"Ingresar producción po tipo y día","#D6D6D6","#2D2D2D",cambiarop2)
+irop2.place(x=20,y=350)
+
+irop3=boton1(framemenu,"Reporte por tipo de polera","#D6D6D6","#2D2D2D",cambiarop3)
+irop3.place(x=20,y=450)
+
+irop4=boton1(framemenu,"Ver ingresos por día","#D6D6D6","#2D2D2D",cambiarop4)
+irop4=boton1(framemenu,"Ver ingresos por día","#D6D6D6","#2D2D2D",cambiarop4)
+irop4.place(x=20,y=550)
+
+exit= boton1(framemenu,"Salir","#005B96", "white",salir)
+exit.place(relx=0.93,rely=0.9)
+
+#Frame 1.
+frameop1=tk.Frame(ventana)
+frameop1.config(bg="#F4F4F4")
+frameop1.pack_forget()
+
+"""Generar interfaz"""
+tituloframe1=tk.Label(frameop1,text="Generar Plan")
+tituloframe1.config(font=("Georgia",16,"bold"),bg="#F4F4F4",fg="#005B96")
+tituloframe1.place(relx=0.45,rely=0.05)
+
+label_nt= tk.Label(frameop1, text="Ingrese cantidad de tipos de poleras:")
+label_nt.place(relx=0.05,rely=0.30)
+label_nt.config(font=("Normal",10,"bold"),bg="#F4F4F4",fg="#005B96")
+
+entry_nt=tk.Entry(frameop1)
+entry_nt.place(relx=0.1,rely=0.35)
+
+label_nd= tk.Label(frameop1, text="Ingrese cantidad de dias de fabricacion:")
+label_nd.config(font=("Normal",10,"bold"),bg="#F4F4F4",fg="#005B96")
+label_nd.place(relx=0.05,rely=0.40)
+
+entry_nd=tk.Entry(frameop1)
+entry_nd.place(relx=0.1,rely=0.45)
+
+botongplan=boton1(frameop1,"Generar plan","#005B96", "white",generar_plan)
+botongplan.place(relx=0.11,rely=0.55)
+
+"""Vovler al menu"""
+volveralmenu=boton1(frameop1,"Volver","#D6D6D6","#2D2D2D",backmenu)
+volveralmenu.place(relx=0.90,rely=0.90)
+
+#Frame 2.
+frameop2=tk.Frame(ventana)
+frameop2.config(bg="#F4F4F4")
+frameop2.pack_forget()
+
+#Frame 3.
+frameop3=tk.Frame(ventana)
+frameop3.config(bg="#F4F4F4")
+frameop3.pack_forget()
+
+Label_precio=tk.Label(frameop3,text="Precios de poleras en relacion a dia de fabricacion")
+Label_precio.config(font=("Georgia",16,"bold"),bg="#F4F4F4",fg="#005B96")
+Label_precio.place(relx=0.25,rely=0.15)
+
+"""Vovler al menu"""
+volveralmenu=boton1(frameop3,"Volver","#D6D6D6","#2D2D2D",backmenu)
+volveralmenu.place(relx=0.90,rely=0.90)
+
+#Frame 4.
+frameop4=tk.Frame(ventana)
+frameop4.config(bg="#F4F4F4")
+frameop4.pack_forget()
+
+"""Vovler al menu"""
+volveralmenu=boton1(frameop4,"Volver","#D6D6D6","#2D2D2D",backmenu)
+volveralmenu.place(relx=0.90,rely=0.90)
+
+#Menu desplegable superior.
+menu_bar=tk.Menu(ventana)
+archivo_menu=tk.Menu(menu_bar,tearoff=0)
+archivo_menu.add_command(label="Menú principal",command=backmenu)
+archivo_menu.add_command(label="Salir",command=salir)
+menu_bar.add_cascade(label="Menú",menu=archivo_menu)
+ventana.config(menu=menu_bar)
+
+#Borrar
+def mov(event):
+    if event.char == "a":
+        print(f"Raton movido a x={event.x},y={event.y}")
+        print(f"Matriz principal: {lp}")
+        print(f"Matriz precio: {precios}")
+ventana.bind("<Motion>",mov)
+ventana.bind("<KeyPress>",mov)
+
+
+
+
+
+#Ejecucion del programa.
+ventana.mainloop()
+

@@ -13,6 +13,8 @@ def plan():
         print(alineado)
 
 def pxd():
+    global nt 
+    global nd
     precio=[]
     for i in range (1,nt+1):
         print(f"Tipo de polera {i}")
