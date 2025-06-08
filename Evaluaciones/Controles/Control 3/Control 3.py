@@ -1,12 +1,13 @@
 f=0
+#Definicion de clase.
 class ventas():
-    def __init__(self,nombre_vendedor,precio_articulo,monto_comision):
+    def __init__(self,nombre_vendedor,precio_articulo,monto_comision): #Constructor 
         global f
         self.nombre_vendedor=str(nombre_vendedor)
         self.precio_articulo=int(precio_articulo)
         self.monto_comision=int(monto_comision*0)
         f=1
-    def calcular_comision(self):
+    def calcular_comision(self): #Metodo de calculo de comision.
         if self.precio_articulo < 30000:
             self.monto_comision = self.precio_articulo*0.02
         elif self.precio_articulo in range (30000,50000):
@@ -21,8 +22,7 @@ Precio articulo: {self.precio_articulo}
 Monto comision: {self.monto_comision}
 ---------------------"""
 
-#Pp
-
+#Programa principal.
 while True:
     print("\n---Menu---")
     print("1.Ingreso de datos y creacion del objeto.")
@@ -30,6 +30,8 @@ while True:
     print("3.Mostrar datos (estado) del objeto.")
     print("4.Salir")
     op=int(input("Ingrese opcion: "))
+    if op not in range(1,4):
+        print("\nNumero no valido, intente nuevamente.")
     if op==1:
         a=input("\nIngrese nombre vendedor: ")
         b=int(input("Ingrese precio articulo: "))
