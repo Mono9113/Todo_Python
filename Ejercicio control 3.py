@@ -21,7 +21,7 @@ class compra():
 #Programa
 
 
-while True:
+while True: 
     print("\n---MENU TIENDA---")
     print("1. Ingresar datos y crear compra")
     print("2. Calcular descuento")
@@ -46,3 +46,4 @@ while True:
             print("\nNo se a creado una compra, eliga opcion 1.")
     if op==4:
         break
+    
