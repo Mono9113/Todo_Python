@@ -251,8 +251,8 @@ def main():
 
     # Cargar sprites enemigos y arma
     try:
-        imp_sprite = pygame.image.load("imp.png").convert_alpha()
-        cacodemon_sprite = pygame.image.load("cacodemon.png").convert_alpha()
+        imp_sprite = pygame.image.load("imp.png").convert_alpha()#Enemigo 1
+        cacodemon_sprite = pygame.image.load("cacodemon.png").convert_alpha() #Enemigo 2
         weapon_sprite = pygame.image.load("weapon.png").convert_alpha()  # sprite normal arma
         weapon_shoot_sprite = pygame.image.load("weaponshoot.png").convert_alpha()  # sprite disparo arma
         #caco_sound = pygame.mixer.Sound("cacosound.mp3")
