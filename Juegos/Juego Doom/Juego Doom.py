@@ -2,6 +2,12 @@ import pygame
 import math
 import sys
 
+"""Antes de ejecutarlo tienes que agregar a la misma carpeta donde guardes el código, ciertas imagenes png (para los dos enemigos, el arma y el arma al disparar)
+Por ahí en el código están los nombres que le tienes que poner a esas imagenes.
+
+Creo que son weapon.png, weaponshoot.png cosas así
+Cacodemon.png y imp.png
+También tienes que buscar un .mp3 que haga de sonido de disparo pero puede simplemente ir a la linea que lo pide y ponerlo como comentario pa que te deja ejecutarlo"""
 
 # Configuraciones
 WIDTH, HEIGHT = 800, 600
