@@ -76,12 +76,22 @@ while True:
         editorial = str(input("Ingrese editorial: "))
         edicion = str(input("Ingrese edición del libro: "))
         año = str(input("Ingrese año del libro: "))
-        try:
-          costo = int(input("ingrese un valor entre 0 y 3000: "))
-          while  costo>3000:
-            print("valor invalido, ingrese un valor entre 0 y 3000: ")
-        except (ValueError,IndexError)  :
-            print("ingrese valores validos")
+        while True:
+                try:
+                    costo = int(input("Ingrese el costo del libro (máximo $3000): "))
+                    if 0 < costo <= 3000 :
+                        costo=costo
+                        break
+                    else:
+                        print("El costo debe ser un número mayor a 0 y menor o igual a $3000. Intente nuevamente.")
+                except ValueError:
+                    print("Por favor, ingrese un valor numérico válido.")
+        # try:
+        #   costo = int(input("ingrese un valor entre 0 y 3000: "))
+        #   while  costo>3000:
+        #     print("valor invalido, ingrese un valor entre 0 y 3000: ")
+        # except (ValueError,IndexError)  :
+        #     print("ingrese valores validos")
 
 
         libro = libros(isbn, titulo, especialidad, autor, editorial, edicion, año, costo)
@@ -125,15 +135,11 @@ while True:
 
         if datos_libros_ingresados == True and datos_personas_ingresados == True:
             plt.bar(nombres, costos, color="skyblue")
-
             plt.title("Gráfico de barras")
-
             plt.xlabel("Personas")
-
             plt.ylabel("Monto a pagar")
-
             plt.show()
-
+        else:
             print("Debe ingresar datos de libros y personas para ver el gráfico (opciones 1 y 2).")
 
     elif op == 6:

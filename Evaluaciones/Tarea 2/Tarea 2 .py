@@ -151,8 +151,5 @@ def main():
         elif opcion == '6': #Salir
             print("¡Gracias por usar el sistema de inventario!")
             break
-        else:
-            print("El costo debe ser un número mayor a 0 y menor o igual a $3000. Intente nuevamente.")
-    except ValueError:
-        print("Por favor, ingrese un valor numérico válido.")
+        
 
