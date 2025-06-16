@@ -152,8 +152,7 @@ def main():
             print("¡Gracias por usar el sistema de inventario!")
             break
         else:
-            print("Opción no válida, por favor intenta de nuevo.")
+            print("El costo debe ser un número mayor a 0 y menor o igual a $3000. Intente nuevamente.")
+    except ValueError:
+        print("Por favor, ingrese un valor numérico válido.")
 
-#Programa
-if __name__ == "__main__":
-    main()
